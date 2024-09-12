@@ -1,0 +1,29 @@
+<div class="widget">
+    <div class="widget-header">
+      <div class="title-container">
+        <h3>Widget Title</h3>
+        <h4 class="widget-subtitle">Subtitle goes here</h4>
+      </div>
+      <a href="#" class="view-details">View details</a>
+    </div>
+    <div class="widget-content">
+      <table>
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data">
+            <td>
+              <span class="key-bullet" [ngClass]="item.priority">&#8226;</span> <!-- Bullet Point -->
+              <span [ngClass]="item.priority">{{ item.key }}</span>
+            </td>
+            <td>{{ item.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

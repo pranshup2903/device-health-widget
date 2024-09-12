@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+.widget {
+  font-family: 'Lato', sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  width: 50%;  // Set widget width to half the screen
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the top */
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;  /* Stack the title and subtitle */
+}
+
+.widget-header h3 {
+  margin: 0;
+}
+
+.widget-header .widget-subtitle {
+  font-size: 0.875rem;  // Smaller font size for subtitle
+  color: grey;          // Grey color for subtitle
+  margin-top: 4px;      // Small margin between the title and subtitle
+}
+
+.widget-header .view-details {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.widget-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.widget-content th, .widget-content td {
+  padding: 8px;
+  text-align: left;
+}
+
+.widget-content th:nth-child(2),
+.widget-content td:nth-child(2) {
+  text-align: right;  // Align "Value" column to the right
+  font-weight: bold;  // Make the "Value" column data bold
+}
+
+.widget-content th {
+  color: grey;
+  border: none;  // Removed the border for the table headers
+}
+
+.widget-content td {
+  border-top: 1px solid #ddd;  // Add a horizontal line between rows
+  padding: 8px;
+}
+
+/* Style bullet points and key colors based on priority */
+.key-bullet {
+  margin-right: 8px;  // Add space between bullet point and key
+}
+
+.high {
+  color: red;         // High priority keys are red
+}
+
+.medium {
+  color: orange;      // Medium priority keys are orange
+}
+
+.low {
+  color: green;       // Low priority keys are green
+}
