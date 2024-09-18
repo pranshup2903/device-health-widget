@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-// Define a type for priority values
 type Priority = 'high' | 'medium' | 'low';
+
+interface DeviceHealthData {
+  key: string;
+  value: number;
+  priority: Priority;
+}
 
 @Component({
   selector: 'app-device-health',
@@ -9,35 +16,33 @@ type Priority = 'high' | 'medium' | 'low';
   styleUrls: ['./device-health.component.scss']
 })
 export class DeviceHealthComponent implements OnInit {
-  data = [
-    { key: 'Overdue for check-in', value: 10, priority: 'high' },
-    { key: 'Camera Issue', value: 20, priority: 'high' },
-    { key: 'No Vehicle', value: 30, priority: 'medium' },
-    { key: 'Wrong Status', value: 40, priority: 'medium' },
-    { key: 'Power Disconnects', value: 20, priority: 'high' },
-    { key: 'SD Card Issue', value: 20, priority: 'high' },
-  ];
+  data: DeviceHealthData[] = [];
 
-  // Define the priority ranking with type assertion
   private priorityRank: { [key in Priority]: number } = {
     high: 3,
     medium: 2,
     low: 1
   };
 
+  constructor(private http: HttpClient) {}
+
   ngOnInit() {
-    this.sortData(); // Sort the data when the component initializes
+    this.fetchData().subscribe((response) => {
+      this.data = response;
+      this.sortData(); // Sort the data once it's fetched
+    });
   }
 
-  // Sorting function to sort by priority and then by value (descending)
+  fetchData(): Observable<DeviceHealthData[]> {
+    return this.http.get<DeviceHealthData[]>('assets/device-health-data.json');
+  }
+
   sortData() {
     this.data.sort((a, b) => {
-      // First, sort by priority
-      const priorityComparison = this.priorityRank[b.priority as Priority] - this.priorityRank[a.priority as Priority];
+      const priorityComparison = this.priorityRank[b.priority] - this.priorityRank[a.priority];
       if (priorityComparison !== 0) {
         return priorityComparison;
       }
-      // If priorities are equal, sort by value in descending order
       return b.value - a.value;
     });
   }

@@ -1,0 +1,9 @@
+[
+    { "key": "Overdue for check-in", "value": 10, "priority": "high" },
+    { "key": "Camera Issue", "value": 20, "priority": "high" },
+    { "key": "No Vehicle", "value": 30, "priority": "medium" },
+    { "key": "Wrong Status", "value": 40, "priority": "medium" },
+    { "key": "Power Disconnects", "value": 20, "priority": "high" },
+    { "key": "SD Card Issue", "value": 20, "priority": "high" }
+  ]
+  
