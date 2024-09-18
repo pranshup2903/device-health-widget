@@ -2,20 +2,18 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
-
 import { AppComponent } from './app.component';
 import { DeviceHealthComponent } from './device-health/device-health.component';
+import { TestComponentComponent } from './components/test-component/test-component.component';
+
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    DeviceHealthComponent,
-  ],
+  declarations: [AppComponent, DeviceHealthComponent, TestComponentComponent],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
