@@ -1,14 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-type Priority = 'high' | 'medium' | 'low';
-
-interface DeviceHealthData {
-  key: string;
-  value: number;
-  priority: Priority;
-}
+import { DeviceHealthData, IssueReportService } from  '../services/issue-report.service'// Import the service
 
 @Component({
   selector: 'app-device-health',
@@ -18,23 +9,19 @@ interface DeviceHealthData {
 export class DeviceHealthComponent implements OnInit {
   data: DeviceHealthData[] = [];
 
-  private priorityRank: { [key in Priority]: number } = {
+  private priorityRank: { [key in string]: number } = {
     high: 3,
     medium: 2,
     low: 1
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private issueReportService: IssueReportService) {}
 
   ngOnInit() {
-    this.fetchData().subscribe((response) => {
+    this.issueReportService.getDeviceHealthData().subscribe((response) => {
       this.data = response;
       this.sortData(); // Sort the data once it's fetched
     });
-  }
-
-  fetchData(): Observable<DeviceHealthData[]> {
-    return this.http.get<DeviceHealthData[]>('assets/device-health-data.json');
   }
 
   sortData() {
