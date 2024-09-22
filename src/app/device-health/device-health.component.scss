@@ -13,7 +13,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start; /* Align items to the top */
-  border-bottom: 1px solid #ddd;
+  // border-bottom: 1px solid #ddd;
   padding-bottom: 8px;
   margin-bottom: 16px;
 }
@@ -79,4 +79,11 @@
 
 .low {
   color: green;       // Low priority keys are green
+}
+
+
+.key-bullet {
+   margin-right: 8px; /* Space between bullet point and key */
+  color: black; /* Change color if needed */
+  font-size: 1.5rem; /* Adjust this value to increase the size */
 }

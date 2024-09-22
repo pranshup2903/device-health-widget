@@ -1,41 +1,42 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-// Define the types
-type Priority = 'high' | 'medium' | 'low';
-
-export interface DeviceHealthData {
+export interface UnhealthyCountData {
   key: string;
   value: number;
-  priority: Priority;
-}
-
-export interface IssueReport {
-  issue: string;
-  quantity: number;
-  priority: Priority;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class IssueReportService {
-  private apiUrl = 'http://localhost:5141/api/issues'; // Your .NET API endpoint
+  private apiUrl = 'http://localhost:5003/devicehealth'; // The new API endpoint
 
   constructor(private http: HttpClient) {}
 
-  // Fetch data from the .NET API and map to DeviceHealthData format
-  getDeviceHealthData(): Observable<DeviceHealthData[]> {
-    return this.http.get<IssueReport[]>(this.apiUrl).pipe(
-      map((issueReports: IssueReport[]) => 
-        issueReports.map((issueReport) => ({
-          key: issueReport.issue,      // Map 'issue' to 'key'
-          value: issueReport.quantity, // Map 'quantity' to 'value'
-          priority: issueReport.priority
-        }))
-      )
+  // Send POST request and map response to UnhealthyCountData format
+  getUnhealthyCountData(): Observable<UnhealthyCountData[]> {
+    const requestBody = {
+      healthParams: ["Check In"],
+      companyId: null,
+      sortOrder: "desc",
+      scrollId: null,
+      size: 2
+    };
+
+    return this.http.post<any>(this.apiUrl, requestBody).pipe(
+      map((response) => {
+        const unhealthyCount = response.unhealthyCount;
+        // Convert unhealthyCount to an array of { key, value }
+        const unhealthyCountArray = Object.keys(unhealthyCount).map(key => ({
+          key,
+          value: unhealthyCount[key]
+        }));
+        // Sort by value in descending order and take the top 5
+        return unhealthyCountArray.sort((a, b) => b.value - a.value).slice(0, 5);
+      })
     );
   }
 }

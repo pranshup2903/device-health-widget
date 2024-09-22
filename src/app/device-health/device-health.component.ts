@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DeviceHealthData, IssueReportService } from  '../services/issue-report.service'// Import the service
+import { UnhealthyCountData, IssueReportService } from '../services/issue-report.service'; // Import the updated service
 
 @Component({
   selector: 'app-device-health',
@@ -7,30 +7,28 @@ import { DeviceHealthData, IssueReportService } from  '../services/issue-report.
   styleUrls: ['./device-health.component.scss']
 })
 export class DeviceHealthComponent implements OnInit {
-  data: DeviceHealthData[] = [];
+  data: UnhealthyCountData[] = [];
 
-  private priorityRank: { [key in string]: number } = {
-    high: 3,
-    medium: 2,
-    low: 1
+  // Mapping object to rename the keys
+  keyMapping: { [key: string]: string } = {
+    checkInGrade: 'Check-in grade',
+    calibrationGrade: 'Calibration grade',
+    presenceGrade: 'Presence grade',
+    ignitionGrade: 'Ignition grade',
+    gpsGrade: 'GPS grade',
+    // Add other mappings as needed
   };
 
   constructor(private issueReportService: IssueReportService) {}
 
   ngOnInit() {
-    this.issueReportService.getDeviceHealthData().subscribe((response) => {
+    this.issueReportService.getUnhealthyCountData().subscribe((response) => {
       this.data = response;
-      this.sortData(); // Sort the data once it's fetched
     });
   }
 
-  sortData() {
-    this.data.sort((a, b) => {
-      const priorityComparison = this.priorityRank[b.priority] - this.priorityRank[a.priority];
-      if (priorityComparison !== 0) {
-        return priorityComparison;
-      }
-      return b.value - a.value;
-    });
+  // Function to get the display name of the key
+  getDisplayName(key: string): string {
+    return this.keyMapping[key] || key; // Return mapped name or original if no mapping found
   }
 }
